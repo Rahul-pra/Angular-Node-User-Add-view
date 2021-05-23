@@ -1,0 +1,48 @@
+<div class="container">
+    <form [formGroup]="businessDetailForm" (ngSubmit)="onSubmit()">
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label for="name">Business Name</label>
+                <input type="text" class="form-control" formControlName="businessName" id="businessName"
+                    placeholder="Business Name" [ngClass]="{ 'is-invalid': submitted && bf.businessName.errors }">
+                <small *ngIf="submitted && bf.businessName.errors" class="form-text text-muted">
+                    <div *ngIf="bf.businessName.errors.required">Name is required</div>
+                </small>
+            </div>
+            <div class="form-group">
+                <div class="card" formArrayName="branches"
+                    *ngFor="let item of businessDetailForm.controls['branches'].controls; let i = index">
+                    <div class="card-header">
+                        <button type="button" class="btn btn-primary mr-1" (click)="deleteBranch(i)">Delete</button>
+                    </div>
+                    <div class="card-body">
+                        <div [formGroupName]="i">
+                            <input class="form-control" formControlName='areaName' placeholder="Area Name"
+                                [ngClass]="{ 'is-invalid': submitted && item.get('areaName').hasError('required') }">
+                            <small *ngIf="submitted && item.get('areaName').hasError" class="form-text text-muted">
+                                <div *ngIf="item.get('areaName').hasError('required')">Area Name is required</div>
+                            </small>
+                            <input class="form-control" formControlName='contactNo' placeholder="Contact No"
+                                [ngClass]="{ 'is-invalid': submitted && item.get('contactNo').hasError('required') }">
+                            <small *ngIf="submitted && item.get('contactNo').hasError" class="form-text text-muted">
+                                <div *ngIf="item.get('contactNo').hasError('required')">Contact No is required</div>
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <button type="button" class="btn btn-primary mr-1" (click)="addNew()">Add New</button>
+        </div>
+
+
+        <div class="modal-footer">
+            <button type="button" class="btn btn-primary mr-1" (click)="goBackClick()">Back</button>
+            <button type="submit" class="btn btn-primary mr-1">Create User</button>
+
+            <!-- <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Ok</button> -->
+        </div>
+    </form>
+</div>
